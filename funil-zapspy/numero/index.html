@@ -558,8 +558,8 @@
                     const currentUrl = new URL(window.location.href);
                     const params = currentUrl.searchParams;
 
-                    // Create URL for redirection
-                    const redirectUrl = new URL('/carregando', currentUrl.origin);
+                   // Isso vai jogar para https://zapspy.pages.dev/carregando
+const redirectUrl = new URL('/carregando/', currentUrl.origin);
 
                     // Copy all parameters from current URL
                     params.forEach((value, key) => {
