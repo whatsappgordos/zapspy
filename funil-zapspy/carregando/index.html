@@ -337,13 +337,14 @@
         function addLog(text, type = 'normal') {
             const div = document.createElement('div');
             div.className = `log-item ${type === 'success' ? 'log-success' : ''}`;
+            if(type === 'warning') div.className += ' log-warning';
             
             // Ícone SVG simples
-            const icon = type === 'success' 
-                ? '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>'
-                : '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-10v6h2V7h-2z"/></svg>';
+            let iconPath = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-10v6h2V7h-2z"/>'; // Info
+            if(type === 'success') iconPath = '<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>'; // Check
+            if(type === 'warning') iconPath = '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>'; // Alert
 
-            div.innerHTML = `${icon} ${text}`;
+            div.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor">${iconPath}</svg> ${text}`;
             logBox.appendChild(div);
             
             // Animação de entrada e scroll
@@ -400,23 +401,32 @@
                     if (data.foto) {
                         document.getElementById('userAvatar').src = data.foto;
                     }
-                    if (data.Status) {
-                        // Poderia atualizar o status aqui se quiser
-                    }
                 }
             } catch (e) {
                 console.log("Erro na API, usando perfil genérico.");
-                // Não faz nada, mantém a imagem SVG padrão que já está no HTML
             }
         }
 
-        // Tenta pegar localização simples
+        // === 5. LOCALIZAÇÃO PRECISA (ATUALIZADO PARA IPAPI) ===
         fetch('https://ipapi.co/json/')
-            .then(res => res.json())
+            .then(response => response.json())
             .then(data => {
-                if(data.city) document.getElementById('locationData').innerText = `${data.city}, ${data.region_code}`;
+                const city = data.city || "São Paulo";
+                const region = data.region_code || "SP";
+                const country = data.country_name || "Brasil";
+                const locationText = `${city} - ${region}`;
+
+                // Atualiza perfil e dados
+                document.getElementById('locationData').innerText = locationText;
+
+                // Log de segurança (aparece aos 14s)
+                setTimeout(() => {
+                    addLog(`Conexão detectada em ${city} - ${region}, ${country}`, 'warning');
+                }, 14000);
             })
-            .catch(() => {});
+            .catch(() => {
+                document.getElementById('locationData').innerText = "Brasil";
+            });
 
     </script>
 </body>
