@@ -737,11 +737,16 @@
                 });
         });
 
-        function redirectToReport() {
-            const currentUrl = new URL(window.location.html);
-            const params = currentUrl.search;
-            window.location.href = `/relatorio/concluido.html${params}`;
-        }
+       function redirectToReport() {
+    // Pegando a URL atual corretamente
+    const currentUrl = new URL(window.location.href);
+    
+    // Pegando os parâmetros (utm, etc)
+    const params = currentUrl.search;
+    
+    // Mandando apenas para a pasta relatorio
+    window.location.href = `/relatorio/${params}`;
+}
 
         // Função para formatar número brasileiro
         function formatarNumeroBrasil(numero) {
